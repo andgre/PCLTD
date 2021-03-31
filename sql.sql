@@ -11,12 +11,13 @@ CREATE TRIGGER tg1 AFTER INSERT ON `ticket`
 
 BEGIN
     INSERT INTO temp (id, tn, title, queue_id, customer_id, create_time)
-    values (new.id, new.tn, new.title, new.queue_id, new.customer_id, new.create_time) where new.queue_id = 7;
+    values (new.id, new.tn, new.title, new.queue_id, new.customer_id, new.create_time);
 
 
 END $$
 DELIMITER ;
-
+#CREATE TRIGGER tg1 AFTER INSERT ON `ticket` FOR EACH ROW BEGIN INSERT INTO temp (id, tn, title, queue_id, customer_id, create_time) values (new.id, new.tn, new.title, new.queue_id, new.customer_id, new.create_time); END
+#
 
 DELIMITER $$
 CREATE TRIGGER tg2 AFTER INSERT ON `ticket`
