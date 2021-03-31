@@ -11,8 +11,25 @@ CREATE TRIGGER tg1 AFTER INSERT ON `ticket`
 
 BEGIN
     INSERT INTO temp (id, tn, title, queue_id, customer_id, create_time)
-    values (new.id, new.tn, new.title, new.queue_id, new.customer_id, new.create_time);
+    values (new.id, new.tn, new.title, new.queue_id, new.customer_id, new.create_time) where new.queue_id = 7;
 
 
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+CREATE TRIGGER tg2 AFTER INSERT ON `ticket`
+    FOR EACH ROW
+
+BEGIN
+
+    IF (SELECT COUNT(*) FROM `ticket` where NEW.queue_id = 7) != 0 THEN
+
+        INSERT INTO temp (id, tn, title, queue_id, customer_id, create_time)
+        values (NEW.id, NEW.tn, NEW.title, NEW.queue_id, NEW.customer_id, NEW.create_time);
+
+    END IF;
 END $$
 DELIMITER ;
